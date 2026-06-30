@@ -1,0 +1,35 @@
+name: Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Weekly catch for newly-disclosed CVEs in unchanged dependencies.
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+  workflow_dispatch:
+
+# Read-only; this workflow never deploys or writes.
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Fail only on high/critical so the known *moderate* transitive postcss
+      # advisory (build-time only — see SECURITY-AUDIT.md VULN-001) doesn't block
+      # CI, while genuinely serious CVEs do. Dependabot tracks the rest.
+      - name: npm audit (fail on high or critical)
+        run: npm audit --audit-level=high

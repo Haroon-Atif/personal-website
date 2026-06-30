@@ -1,0 +1,20 @@
+version: 2
+updates:
+  # JS dependencies — surfaces new CVEs (incl. transitive ones like the bundled
+  # postcss advisory) as PRs you can review and merge.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+
+  # Keeps GitHub Actions up to date — the mitigation path for actions pinned to
+  # mutable tags (VULN-004 in SECURITY-AUDIT.md).
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "ci"
