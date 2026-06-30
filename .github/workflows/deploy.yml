@@ -28,7 +28,11 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        # Use `npm install`, not `npm ci`: the committed package-lock.json is
+        # generated on Windows, and `npm ci`'s strict cross-platform lockfile
+        # validation fails on the Linux runner. `npm install` reconciles the
+        # lockfile on Linux and installs the correct platform binaries.
+        run: npm install --no-audit --no-fund
 
       - name: Build static site
         run: npm run build

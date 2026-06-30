@@ -50,17 +50,19 @@ exploitable application bugs.
 ## Status — owner decisions (2026-06-30)
 
 - **VULN-001 (postcss):** Accepted / no override applied. Build-time only, not
-  exploitable here. **Dependabot now watches npm** and will PR the Next.js bump
-  that resolves it.
+  exploitable here. Track the Next.js bump manually (run `npm audit` / `npm
+  outdated` periodically).
 - **VULN-002 (headers):** **"Enforce HTTPS" enabled** in GitHub Pages settings
   (transport security covered). Content headers (CSP/nosniff/referrer) are
   **accepted risk / skipped** — defense-in-depth only on this no-input site.
 - **VULN-003 (MDX):** Confirmed **not applicable** — all content enters via
   owner-reviewed git; no unreviewed third-party submissions are accepted.
-- **VULN-004 (Actions):** **Mitigated** — Dependabot `github-actions` updates
-  enabled (`.github/dependabot.yml`).
-- **CI hardening done:** `npm audit` (fail on high/critical) + Dependabot wired
-  into CI (`.github/workflows/security.yml`, `.github/dependabot.yml`).
+- **VULN-004 (Actions):** **Open / accepted.** Actions remain on mutable major
+  tags. (Dependabot was trialed but removed — see note below.)
+- **CI status:** The `npm audit` + Dependabot CI added on 2026-06-30 was
+  **reverted** — it surfaced an unrelated `npm ci` failure on the runner and
+  generated noisy red checks. The repo's only workflow now is the Pages deploy.
+  Re-introducing SCA later is a backlog item (see recommendations).
 
 ---
 
@@ -206,9 +208,11 @@ exploitable application bugs.
   `PreToolUse` hook (or a git pre-commit hook) that blocks committing `.env`
   files and obvious secret patterns. Low effort, prevents the most common real
   leak.
-- **SCA in CI — DONE:** `npm audit --audit-level=high` runs on push/PR/weekly
-  (`.github/workflows/security.yml`) and **Dependabot** is enabled for npm +
-  GitHub Actions (`.github/dependabot.yml`).
+- **SCA in CI — BACKLOG (was added, then reverted):** an `npm audit` workflow +
+  Dependabot were wired in on 2026-06-30 but removed after they exposed an
+  unrelated `npm ci`/lockfile failure on the Linux runner. Re-add once the
+  lockfile is regenerated on Linux (or CI uses `npm install`), so the audit
+  check starts from green. Until then, run `npm audit` locally before releases.
 - **Diff-scoped review going forward:** run `/security-review` on PRs/branches
   before merging — it's the right granularity now that the baseline is clean.
 - **Document the trust boundary:** note in `docs/content-authoring.md` that
