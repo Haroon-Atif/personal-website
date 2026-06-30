@@ -1,0 +1,8 @@
+{
+  "title": "Cybersecurity",
+  "description": "Notes on web security, threat modeling, and breaking (then fixing) things.",
+  "accent": "green",
+  "icon": "⛨",
+  "category": "security",
+  "order": 1
+}

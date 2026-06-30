@@ -1,0 +1,49 @@
+---
+title: "SQL Injection, From First Principles"
+date: "2026-05-12"
+description: "Why string-concatenated queries are dangerous, and how parameterization actually fixes it."
+tags: ["web", "appsec", "databases"]
+---
+
+SQL injection remains one of the most common — and most preventable — classes
+of vulnerability. The root cause is simple: **mixing untrusted data with code**.
+
+## The vulnerable pattern
+
+Consider a login query built by string concatenation:
+
+```python
+# DON'T do this.
+query = "SELECT * FROM users WHERE email = '" + email + "'"
+cursor.execute(query)
+```
+
+If an attacker submits `' OR '1'='1` as the email, the query becomes:
+
+```sql
+SELECT * FROM users WHERE email = '' OR '1'='1'
+```
+
+The `OR '1'='1'` is always true, so the database happily returns every row.
+
+## The fix: parameterization
+
+Let the driver separate code from data. The query text is fixed; values are
+sent separately and never interpreted as SQL:
+
+```python
+# Safe: the value can never change the query's structure.
+cursor.execute(
+    "SELECT * FROM users WHERE email = %s",
+    (email,),
+)
+```
+
+> Parameterized queries aren't an "escaping" trick — they remove the decision
+> of "is this code or data?" from the equation entirely.
+
+## Takeaways
+
+- Never build SQL by concatenating user input.
+- Prefer parameterized queries / prepared statements everywhere.
+- Treat ORMs as helpful, but understand what they emit.

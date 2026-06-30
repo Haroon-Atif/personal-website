@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Design tokens — dark terminal + green accent ("clean code") theme.  */
+/* Documented in docs/design-system.md.                                */
+/* ------------------------------------------------------------------ */
+:root {
+  /* Surfaces (near-black charcoal with a faint green tint). */
+  --bg: #0a0e0c;
+  --bg-subtle: #0e1411;
+  --panel-solid: #111814;
+  --panel-elevated: #161e19;
+  --border: #20302a;
+  --border-strong: #2c4239;
+
+  /* Text. */
+  --foreground: #c7d4cc;
+  --muted: #7d8e85;
+  --faint: #56655d;
+
+  /* Accents. */
+  --accent: #3fb950; /* primary green */
+  --accent-bright: #39d353; /* highlight / glow */
+  --accent-dim: #2ea043;
+  --accent-soft: #1f3a2a; /* tinted fills */
+  --amber: #d29922;
+  --cyan: #56d4dd;
+  --red: #f85149;
+}
+
+/* Map tokens to Tailwind v4 utilities (bg-bg, text-accent, border-border…). */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-panel: var(--panel-solid);
+  --color-panel-elevated: var(--panel-elevated);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-soft: var(--accent-soft);
+  --color-amber: var(--amber);
+  --color-cyan: var(--cyan);
+  --color-red: var(--red);
+
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+
+  --radius-base: 0.5rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base.                                                               */
+/* ------------------------------------------------------------------ */
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--foreground);
+  font-family: var(--font-mono), ui-monospace, "Cascadia Code", monospace;
+  /* Subtle terminal grid texture behind everything. Note: we intentionally do
+     NOT use background-attachment: fixed here — it forces a full repaint on
+     every scroll frame. The grid scrolls with the page instead. */
+  background-image:
+    linear-gradient(to right, rgba(63, 185, 80, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(63, 185, 80, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+::selection {
+  background: rgba(57, 211, 83, 0.28);
+  color: #eafff0;
+}
+
+/* Slim, on-theme scrollbar. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 9999px;
+}
+
+a {
+  color: inherit;
+}
+
+/* ------------------------------------------------------------------ */
+/* Reusable terminal motifs.                                           */
+/* ------------------------------------------------------------------ */
+
+/* Blinking block cursor (typing animations, prompts). */
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.cursor {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.1em;
+  margin-left: 0.1ch;
+  translate: 0 0.15em;
+  background: var(--accent-bright);
+  animation: blink 1.05s steps(1) infinite;
+}
+
+/* Green text glow used on hover/active states. */
+.glow {
+  text-shadow: 0 0 18px rgba(57, 211, 83, 0.45);
+}
+.glow-box {
+  box-shadow:
+    0 0 0 1px var(--accent-dim),
+    0 0 28px -6px rgba(57, 211, 83, 0.5);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respect reduced-motion: disable decorative animation/scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .cursor {
+    opacity: 1;
+  }
+}

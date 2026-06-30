@@ -1,0 +1,32 @@
+---
+title: "Threat Modeling in Four Questions"
+date: "2026-06-02"
+description: "A lightweight framework you can run on any feature before you write a line of code."
+tags: ["appsec", "process"]
+---
+
+You don't need a heavyweight methodology to think clearly about security. Shostack's
+four questions get you 80% of the value:
+
+1. **What are we building?** Draw the data flow.
+2. **What can go wrong?** Walk each trust boundary.
+3. **What are we going to do about it?** Pick mitigations.
+4. **Did we do a good job?** Review and iterate.
+
+## Trust boundaries are where bugs live
+
+Any place data crosses from a less-trusted zone to a more-trusted one is a
+boundary worth scrutinizing — a browser to your API, your API to the database,
+one service to another.
+
+```text
+[ browser ] --(untrusted input)--> [ api ] --(query)--> [ db ]
+            ^ boundary                    ^ boundary
+```
+
+Spend your attention at the arrows.
+
+## Make it a habit, not an event
+
+The best threat model is the cheap one you actually run. Five minutes on a
+whiteboard before building beats a 40-page document nobody reads.

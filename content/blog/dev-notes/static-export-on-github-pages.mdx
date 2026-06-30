@@ -1,0 +1,29 @@
+---
+title: "Shipping a Next.js Site to GitHub Pages"
+date: "2026-06-15"
+description: "The three config flags that make `next build` produce a static site any host can serve."
+tags: ["nextjs", "deploy"]
+---
+
+Next.js can emit a fully static site — no Node server required — which is
+perfect for free static hosts. Three settings do the heavy lifting:
+
+```ts
+// next.config.ts
+const nextConfig = {
+  output: "export",          // emit static HTML to ./out
+  images: { unoptimized: true }, // no image-optimization server
+  trailingSlash: true,       // /blog/ -> /blog/index.html
+};
+```
+
+Run `next build` and you get an `out/` directory you can drop onto GitHub
+Pages, Cloudflare Pages, or any static host.
+
+## The gotchas
+
+- **No server features.** API routes, SSR, and ISR don't exist in an export.
+- **Dynamic routes need `generateStaticParams`** so every page is known at build.
+- Add a `.nojekyll` file so GitHub Pages doesn't mangle `_next/` paths.
+
+That's the whole trick — this very site is built exactly this way.
