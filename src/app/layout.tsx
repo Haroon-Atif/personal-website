@@ -51,6 +51,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      // Opt into Next's smooth-scroll handling for our globals.css
+      // `scroll-behavior: smooth` (avoids janky smooth scroll on route changes).
+      data-scroll-behavior="smooth"
       className={`${jetbrains.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">

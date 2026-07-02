@@ -1,4 +1,8 @@
 import { site } from "@/lib/site";
+import { EmailLink } from "@/components/ui/EmailLink";
+
+const linkClass =
+  "font-mono text-xs text-muted transition-colors hover:text-accent-bright";
 
 /** Terminal-styled footer with contact links. */
 export function Footer() {
@@ -6,7 +10,6 @@ export function Footer() {
   const links = [
     { label: "github", href: site.socials.github },
     { label: "linkedin", href: site.socials.linkedin },
-    { label: "email", href: `mailto:${site.email}` },
     { label: "cv", href: site.cv },
   ];
 
@@ -22,14 +25,20 @@ export function Footer() {
             <li key={l.label}>
               <a
                 href={l.href}
+                download={l.href.endsWith(".pdf") ? "" : undefined}
                 target={l.href.startsWith("http") ? "_blank" : undefined}
                 rel="noopener noreferrer"
-                className="font-mono text-xs text-muted transition-colors hover:text-accent-bright"
+                className={linkClass}
               >
                 {l.label}
               </a>
             </li>
           ))}
+          <li>
+            <EmailLink email={site.email} className={linkClass}>
+              email
+            </EmailLink>
+          </li>
         </ul>
       </div>
     </footer>

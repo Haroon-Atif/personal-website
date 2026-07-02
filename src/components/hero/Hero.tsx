@@ -21,10 +21,10 @@ export function Hero() {
             <span className="text-faint">&gt; </span>
             <Typewriter
               phrases={[
-                "security engineer",
-                "software builder",
-                "writer & translator",
-                "perpetual tinkerer",
+                "software engineer",
+                "kotlin multiplatform dev",
+                "astronomy-engine builder",
+                "security tinkerer",
               ]}
             />
           </p>

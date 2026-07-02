@@ -36,7 +36,7 @@ Dynamic routes are fully pre-rendered via `generateStaticParams`.
 - **Loaders** in `src/lib/` (`blog.ts`, `projects.ts`) read `content/` from the
   filesystem at build time and expose typed helpers.
 - **Components** in `src/components/` are grouped by area: `nav/`, `hero/`,
-  `resume/`, `cards/`, `mdx/`, `ui/`.
+  `resume/`, `cards/`, `mdx/`, `ui/`, `viz/`.
 - Path aliases: `@/*` → `src/*`, `@content/*` → `content/*` (`tsconfig.json`).
 
 ## Interactivity (where the moving parts are)
@@ -47,5 +47,16 @@ Dynamic routes are fully pre-rendered via `generateStaticParams`.
 - `components/cards/HoverCard.tsx` — cursor-tracking green spotlight + lift,
   reused by every card (client). Pure CSS variables set on `mousemove`; no
   animation library, so it stays cheap on card-heavy pages.
+- `components/nav/NavPrompt.tsx` — the interactive `cd` prompt in the nav
+  (client, on mobile + desktop). Draws its own always-on block cursor and hides
+  the native caret so the visible caret matches the real insertion point.
+- `components/viz/*` — interactive project visualizations (e.g. `MoonSighting`)
+  embedded into project MDX by name; see `docs/visualizations.md`.
 
 All animations honor `prefers-reduced-motion`.
+
+## Testing
+
+Playwright E2E tests in `tests/e2e/` drive the built site (routing, terminal
+nav, content, the visualization, CV download) under desktop + mobile viewports.
+See `docs/testing.md`. Run with `npm test`.

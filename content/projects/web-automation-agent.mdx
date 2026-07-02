@@ -1,0 +1,28 @@
+---
+title: "AI-Powered Web Automation Agent"
+summary: "An autonomous browser agent that plans multi-step web tasks with an LLM and recovers from failures, exposed over a FastAPI interface."
+tech: ["Python", "Playwright", "FastAPI", "MCP"]
+featured: false
+order: 2
+---
+
+## Overview
+
+An autonomous browser agent that drives real websites to complete multi-step
+tasks — data extraction, form submission — without hand-written scripts per
+task.
+
+## How it works
+
+- **LLM-driven planning** via MCP decides the next action from the current page
+  state rather than following a fixed script.
+- **State recovery and retry logic** so a flaky step or an unexpected page
+  doesn't sink the whole run — the agent re-observes and re-plans.
+- A **FastAPI** interface exposes task execution so other systems can trigger
+  runs over HTTP, with no code changes required per task.
+
+## What I learned
+
+The hard part of "agentic" automation isn't the happy path — it's everything
+that goes wrong on step 7 of 10. Most of the engineering went into making
+failure observable and recoverable so long tasks actually finish reliably.

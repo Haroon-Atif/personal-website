@@ -1,7 +1,8 @@
 import { Hero } from "@/components/hero/Hero";
 import { ExperienceTimeline } from "@/components/resume/ExperienceTimeline";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ButtonLink } from "@/components/ui/Button";
+import { ButtonLink, buttonClasses } from "@/components/ui/Button";
+import { EmailLink } from "@/components/ui/EmailLink";
 import { experiences } from "@content/resume/experience";
 import { site } from "@/lib/site";
 
@@ -27,9 +28,9 @@ export default function HomePage() {
             books? My inbox is open.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <ButtonLink href={`mailto:${site.email}`} variant="primary">
+            <EmailLink email={site.email} className={buttonClasses("primary")}>
               {site.email}
-            </ButtonLink>
+            </EmailLink>
             <ButtonLink href={site.socials.github} variant="ghost">
               github
             </ButtonLink>

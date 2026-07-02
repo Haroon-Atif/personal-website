@@ -1,0 +1,50 @@
+---
+title: "AlSalah — Cross-Platform Prayer Times"
+summary: "A Kotlin Multiplatform prayer-times app with a from-scratch astronomy engine that computes lunar-crescent visibility from the Odeh (2004) criterion."
+tech: ["Kotlin Multiplatform", "Compose", "Ktor", "Room", "Koin"]
+featured: true
+order: 1
+---
+
+## Overview
+
+AlSalah ships to **Android, iOS, and Desktop from one shared Kotlin
+Multiplatform codebase** — a Compose Multiplatform UI, Room persistence, and
+Koin dependency injection, backed by a Ktor server (Netty, Exposed ORM, SQLite,
+HikariCP) packaged as a WAR on Tomcat 11.
+
+The interesting part isn't the app shell — it's the calendar underneath it.
+
+## The Hijri calendar problem
+
+The Islamic month begins when the new lunar crescent (_hilāl_) first becomes
+visible from a given location — which is a genuine astronomy problem, not a
+lookup table. AlSalah computes month boundaries from **per-location crescent
+visibility**, implementing the peer-reviewed **Odeh (2004)** criterion on top of
+custom sun and moon ephemeris code.
+
+Odeh's test reduces visibility to a single parameter, `q`, from the crescent's
+arc of vision and its width, and sorts each sighting into four zones — from
+"visible to the naked eye" down to "not visible even with optical aid." Scrub
+the inputs below to see how it behaves:
+
+<MoonSighting />
+
+## Getting the math right
+
+An engine like this is only worth anything if it's correct, so it ships with a
+**150+ test validation suite**:
+
+- Checked against **NASA** and **JPL HORIZONS** ephemeris data and textbook
+  reference values.
+- End-to-end checks against **22 years of published crescent-sighting records**.
+
+On top of the calendar, I built Python observability tooling so the team gets
+real-time visibility into application health and faster fault detection.
+
+## What I learned
+
+Correctness has to be _designed in_, not tested in afterward. Building the
+validation suite alongside the ephemeris code — with authoritative references as
+the oracle — is what made it safe to trust the calendar for something people
+actually rely on.

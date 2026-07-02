@@ -1,0 +1,27 @@
+---
+title: "MITRE Embedded Cybersecurity Competition"
+summary: "Hardened vulnerable embedded firmware for the MITRE eCTF — closing buffer-overflow and unauthorized-flash-access holes with stack canaries and MPU protections."
+tech: ["C", "Python", "Embedded"]
+featured: false
+order: 3
+---
+
+## Overview
+
+The MITRE Embedded Capture-the-Flag (eCTF) drops you into a deliberately
+vulnerable embedded system and asks you to secure it against a live attack
+scenario. Our work focused on the firmware.
+
+## What I did
+
+- **Rewrote vulnerable firmware routines in C**, removing the memory-safety bugs
+  that made exploitation possible in the first place.
+- Enabled **stack canaries** and **MPU memory protections**, closing
+  buffer-overflow and unauthorized-flash-access vulnerabilities in the
+  competition scenario.
+
+## What I learned
+
+On constrained hardware, security is a budget: every protection costs cycles and
+flash. The exercise was as much about _which_ defenses to spend on for a given
+threat model as it was about implementing them.

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Window } from "@/components/ui/Window";
-import { ButtonLink } from "@/components/ui/Button";
+import { ButtonLink, buttonClasses } from "@/components/ui/Button";
+import { EmailLink } from "@/components/ui/EmailLink";
 import { Badge } from "@/components/ui/Badge";
 import { site } from "@/lib/site";
 
@@ -11,14 +12,35 @@ export const metadata: Metadata = {
 };
 
 const stack = [
-  "TypeScript",
+  "Kotlin",
+  "Kotlin Multiplatform",
+  "Compose",
   "Python",
-  "React / Next.js",
-  "Node.js",
-  "Go",
-  "Linux",
-  "Burp Suite",
+  "C / C++",
+  "TypeScript",
+  "Ktor / FastAPI",
   "Docker",
+  "Kubernetes",
+  "AWS",
+  "Linux",
+];
+
+const education = [
+  {
+    school: "Western Governor's University",
+    degree: "B.S. Computer Science",
+    detail: "Oct 2025",
+  },
+  {
+    school: "University of California, Irvine",
+    degree: "B.S. Computer Science",
+    detail: "2023 – 2024",
+  },
+  {
+    school: "Los Angeles Harbor College",
+    degree: "A.S. Physics & Mathematics",
+    detail: "Summa Cum Laude · GPA 3.95 · Jun 2023",
+  },
 ];
 
 export default function AboutPage() {
@@ -31,19 +53,23 @@ export default function AboutPage() {
       <Window title="about/README.md">
         <div className="space-y-4 font-sans text-[15px] leading-7 text-foreground/90">
           <p>
-            Hi — I&apos;m {site.name}. I work at the intersection of security
-            and software: building things carefully, then trying to break them.
+            Hi — I&apos;m {site.name}, a software engineer based in Los Angeles.
+            I build cross-platform apps and the rigorous systems that sit behind
+            them, and I like problems where correctness actually matters.
           </p>
           <p>
-            This site is where I keep my writing and projects. The blog is
-            grouped by topic — security notes, dev notes, and a long-running
-            novel translation — and the projects section collects tools and
-            visualizations I&apos;ve built.
+            Right now I&apos;m at Sileria building <strong>AlSalah</strong>, a
+            Kotlin Multiplatform prayer-times app that ships to Android, iOS,
+            and Desktop from one shared codebase. Its heart is a from-scratch
+            astronomy engine that computes lunar-crescent visibility using the
+            peer-reviewed Odeh (2004) criterion — validated against NASA and JPL
+            HORIZONS data across 22 years of published records.
           </p>
           <p>
-            Outside of code, I read widely and translate fiction, which keeps me
-            honest about clarity: whether it&apos;s a sentence or a system, the
-            goal is the same — make the complex feel simple.
+            Before that I automated pricing and reporting pipelines in Python
+            and spent a year debugging contact-center systems at the City of Los
+            Angeles. I also enjoy lower-level, security-minded work — hardening
+            embedded firmware for the MITRE eCTF is a recent favorite.
           </p>
         </div>
       </Window>
@@ -59,10 +85,32 @@ export default function AboutPage() {
         </div>
       </div>
 
+      <div className="mt-8">
+        <p className="mb-3 font-mono text-sm text-muted">
+          <span className="text-accent">$</span> cat education.log
+        </p>
+        <ul className="space-y-3">
+          {education.map((e) => (
+            <li
+              key={e.school}
+              className="rounded-[var(--radius-base)] border border-border bg-panel p-4"
+            >
+              <p className="font-mono text-sm font-semibold text-foreground">
+                {e.school}
+              </p>
+              <p className="mt-1 font-sans text-sm text-muted">
+                {e.degree}
+                <span className="text-faint"> · {e.detail}</span>
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <div className="mt-8 flex flex-wrap gap-3">
-        <ButtonLink href={`mailto:${site.email}`} variant="primary">
+        <EmailLink email={site.email} className={buttonClasses("primary")}>
           get in touch
-        </ButtonLink>
+        </EmailLink>
         <ButtonLink href={site.cv} variant="ghost">
           download cv
         </ButtonLink>

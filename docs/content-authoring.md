@@ -80,6 +80,20 @@ order: 1 # lower sorts first
 Long-form write-up rendered on /projects/<slug>.
 ```
 
+### Add an interactive visualization to a project
+
+A project's detail page can embed an interactive visualization (e.g. the
+moon-sighting calculator on the AlSalah project). Register a client component in
+`src/components/viz/` and reference it by name in the MDX body:
+
+```mdx
+## How it works
+
+<MoonSighting />
+```
+
+Full walkthrough (and how to add your own) in `docs/visualizations.md`.
+
 ## Edit the resume
 
 Roles are a typed array in `content/resume/experience.ts`. Edit the entries
@@ -88,4 +102,10 @@ Roles are a typed array in `content/resume/experience.ts`. Edit the entries
 ## Edit identity / links
 
 Name, tagline, email, socials, CV path, and nav items live in `src/lib/site.ts`.
-Drop your CV at `public/cv.pdf` (the default link is `/cv.pdf`).
+The CV is served from `public/` — the current file is
+`public/Haroon_Atif_CV.pdf` and `site.cv` points at `/Haroon_Atif_CV.pdf`. To
+swap it, drop a new PDF in `public/` and update `site.cv` to match. CV links use
+the `download` attribute so the file saves rather than opening in a tab.
+
+Still placeholder (replace before a real deploy): `site.socials` (GitHub /
+LinkedIn URLs), `site.url`, and `public/CNAME` (custom domain).

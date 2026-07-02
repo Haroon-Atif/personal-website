@@ -35,6 +35,7 @@ npm run dev      # local dev server
 npm run build    # static export to ./out (this is what Pages deploys)
 npm run lint     # eslint
 npx tsc --noEmit # typecheck
+npm test         # Playwright E2E (needs: npx playwright install chromium once)
 npx prettier --write .   # format (don't hand-format; Prettier owns style)
 ```
 
@@ -47,5 +48,8 @@ npx prettier --write .   # format (don't hand-format; Prettier owns style)
 
 - `docs/architecture.md` — structure, routes, where the interactivity lives.
 - `docs/content-authoring.md` — how to add topics, articles, projects, resume.
+- `docs/visualizations.md` — interactive project visualizations (e.g. the
+  moon-sighting demo): how the `viz/` → MDX wiring works and how to add one.
+- `docs/testing.md` — Playwright E2E suite: what's covered and how to run it.
 - `docs/design-system.md` — tokens, fonts, UI primitives, motifs.
 - `docs/deployment.md` — GitHub Pages + Namecheap DNS, switching hosts.

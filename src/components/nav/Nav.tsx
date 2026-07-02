@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { nav, site } from "@/lib/site";
+import { nav } from "@/lib/site";
 import { NavPrompt } from "./NavPrompt";
 
 /**
@@ -21,27 +21,13 @@ export function Nav({ directories }: { directories: string[] }) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur-md">
-      <nav className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:px-6">
-        {/* Interactive prompt on desktop. */}
-        <div className="hidden sm:block">
-          <NavPrompt directories={directories} pathname={pathname} />
-        </div>
-
-        {/* Simple brand on mobile (no typing). */}
-        <Link
-          href="/"
-          className="group flex items-center font-mono text-sm sm:hidden"
-          onClick={() => setOpen(false)}
-        >
-          <span className="text-accent">{site.handle}@dev</span>
-          <span className="text-faint">:</span>
-          <span className="text-cyan">~</span>
-          <span className="text-faint">$</span>
-          <span className="cursor align-middle" />
-        </Link>
+      <nav className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
+        {/* Interactive terminal prompt — now on mobile as well as desktop so
+            `cd` navigation works everywhere (the username still links home). */}
+        <NavPrompt directories={directories} pathname={pathname} />
 
         {/* Desktop links. */}
-        <ul className="hidden items-center gap-1 sm:flex">
+        <ul className="hidden shrink-0 items-center gap-1 sm:flex">
           {nav.map((item) => (
             <li key={item.href}>
               <Link
@@ -65,7 +51,7 @@ export function Nav({ directories }: { directories: string[] }) {
           aria-label="Toggle menu"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="font-mono text-sm text-muted hover:text-accent-bright sm:hidden"
+          className="shrink-0 font-mono text-sm text-muted hover:text-accent-bright sm:hidden"
         >
           {open ? "[ x ]" : "[ ≡ ]"}
         </button>

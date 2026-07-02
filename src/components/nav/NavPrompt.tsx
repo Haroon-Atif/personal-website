@@ -13,6 +13,13 @@ import { site } from "@/lib/site";
  *
  * `directories` is the set of navigable paths (top-level routes + blog topics),
  * computed server-side and passed in so `cd` can report "no such directory".
+ *
+ * Cursor: we hide the browser's native line caret and render our own block
+ * cursor (`.cursor`) that stays visible the whole time and sits exactly at the
+ * insertion point — the input's width tracks its content (in `ch`), so the
+ * block always lands at the end of what you've typed. This keeps the visible
+ * caret and the real click/focus target in the same place on desktop and works
+ * the same on mobile (where the prompt is now interactive, not just decorative).
  */
 export function NavPrompt({
   directories,
@@ -24,7 +31,6 @@ export function NavPrompt({
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
-  const [focused, setFocused] = useState(false);
   const [msg, setMsg] = useState<{ text: string; error: boolean } | null>(null);
 
   // Current working directory, e.g. "/" -> "~", "/blog" -> "~/blog".
@@ -73,6 +79,8 @@ export function NavPrompt({
         if (directories.includes(dest)) {
           setValue("");
           setMsg(null);
+          // Dismiss the mobile keyboard on a successful jump.
+          inputRef.current?.blur();
           router.push(dest);
         } else {
           setMsg({ text: `cd: no such directory: ${arg || "~"}`, error: true });
@@ -105,54 +113,72 @@ export function NavPrompt({
   }
 
   return (
-    <div className="relative font-mono text-sm">
+    <div className="relative flex-1 font-mono text-sm">
       <div
-        className="flex items-center"
-        onClick={() => inputRef.current?.focus()}
+        className="flex cursor-text items-center"
+        onClick={(e) => {
+          const input = inputRef.current;
+          if (!input) return;
+          // Clicking anywhere in the (now full-width) prompt focuses the shell;
+          // when the click isn't on the input itself, drop the caret at the end
+          // so typing continues from where the block cursor already sits.
+          if (e.target !== input) {
+            input.focus();
+            const end = input.value.length;
+            input.setSelectionRange(end, end);
+          }
+        }}
       >
         {/* Username links home; the path + input are the interactive shell. */}
         <Link
           href="/"
           onClick={(e) => e.stopPropagation()}
-          className="text-accent hover:glow"
+          className="shrink-0 text-accent hover:glow"
         >
           {site.handle}@dev
         </Link>
         <span className="text-faint">:</span>
-        <span className="max-w-[40vw] truncate text-cyan sm:max-w-xs">
+        <span className="max-w-[38vw] truncate text-cyan sm:max-w-xs">
           {display}
         </span>
         <span className="text-faint">$&nbsp;</span>
 
-        <input
-          ref={inputRef}
-          value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
-            if (msg) setMsg(null);
-          }}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") run(value);
-            else if (e.key === "Escape") {
-              setValue("");
-              inputRef.current?.blur();
-            }
-          }}
-          aria-label="Terminal navigation: type a command like cd ~/blog"
-          spellCheck={false}
-          autoComplete="off"
-          autoCapitalize="off"
-          autoCorrect="off"
-          size={Math.max(value.length, 1)}
-          style={{ caretColor: "var(--accent-bright)" }}
-          className="bg-transparent text-accent-bright caret-accent-bright outline-none"
-        />
-        {/* Idle block cursor when the shell isn't focused. */}
-        {!focused && value === "" ? (
-          <span className="cursor -ml-1.5 align-middle" aria-hidden />
-        ) : null}
+        {/* Input + block cursor share a line; the block sits at the text end. */}
+        <span className="inline-flex shrink-0 items-center">
+          <input
+            ref={inputRef}
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value);
+              if (msg) setMsg(null);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") run(value);
+              else if (e.key === "Escape") {
+                setValue("");
+                inputRef.current?.blur();
+              }
+            }}
+            aria-label="Terminal navigation: type a command like cd ~/blog"
+            spellCheck={false}
+            autoComplete="off"
+            autoCapitalize="off"
+            autoCorrect="off"
+            // Width tracks content so our block cursor lands at the caret; the
+            // native caret is hidden (we draw our own block below).
+            style={{
+              width: value.length ? `${value.length}ch` : "1px",
+              caretColor: "transparent",
+            }}
+            className="bg-transparent text-accent-bright outline-none"
+          />
+          {/* Always-on block cursor (the whole point of the terminal look). */}
+          <span className="cursor" aria-hidden />
+        </span>
+
+        {/* Clickable filler: extends the typing target across the empty space up
+            to the nav buttons (clicks here bubble to the row's onClick). */}
+        <span className="min-w-4 flex-1 self-stretch" aria-hidden />
       </div>
 
       {/* Transient command output / errors. */}
