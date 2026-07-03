@@ -9,7 +9,7 @@ import { vizComponents } from "@/components/viz";
  * Fenced code blocks are highlighted by rehype-pretty-code (see lib/mdx.ts) —
  * we only style the wrapping <pre>/<code> shells here.
  *
- * `vizComponents` are interactive project visualizations (e.g. <MoonSighting />)
+ * `vizComponents` are interactive project visualizations (e.g. <AlSalahPanel />)
  * that MDX bodies can reference by name; see docs/visualizations.md.
  */
 export const mdxComponents: MDXComponents = {

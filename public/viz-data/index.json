@@ -1,0 +1,101 @@
+{
+  "generatedAt": "2026-07-03T03:41:26.942Z",
+  "evenings": [
+    {
+      "date": "2026-07-14",
+      "ordinal": 1,
+      "newMoonUTC": "2026-07-14T09:44:04.307Z",
+      "label": "14 Jul 2026 · 1st evening"
+    },
+    {
+      "date": "2026-07-15",
+      "ordinal": 2,
+      "newMoonUTC": "2026-07-14T09:44:04.307Z",
+      "label": "15 Jul 2026 · 2nd evening"
+    },
+    {
+      "date": "2026-08-12",
+      "ordinal": 1,
+      "newMoonUTC": "2026-08-12T17:37:11.343Z",
+      "label": "12 Aug 2026 · 1st evening"
+    },
+    {
+      "date": "2026-08-13",
+      "ordinal": 2,
+      "newMoonUTC": "2026-08-12T17:37:11.343Z",
+      "label": "13 Aug 2026 · 2nd evening"
+    },
+    {
+      "date": "2026-09-11",
+      "ordinal": 1,
+      "newMoonUTC": "2026-09-11T03:27:28.467Z",
+      "label": "11 Sept 2026 · 1st evening"
+    },
+    {
+      "date": "2026-09-12",
+      "ordinal": 2,
+      "newMoonUTC": "2026-09-11T03:27:28.467Z",
+      "label": "12 Sept 2026 · 2nd evening"
+    },
+    {
+      "date": "2026-10-10",
+      "ordinal": 1,
+      "newMoonUTC": "2026-10-10T15:50:36.724Z",
+      "label": "10 Oct 2026 · 1st evening"
+    },
+    {
+      "date": "2026-10-11",
+      "ordinal": 2,
+      "newMoonUTC": "2026-10-10T15:50:36.724Z",
+      "label": "11 Oct 2026 · 2nd evening"
+    },
+    {
+      "date": "2026-11-09",
+      "ordinal": 1,
+      "newMoonUTC": "2026-11-09T07:02:42.392Z",
+      "label": "9 Nov 2026 · 1st evening"
+    },
+    {
+      "date": "2026-11-10",
+      "ordinal": 2,
+      "newMoonUTC": "2026-11-09T07:02:42.392Z",
+      "label": "10 Nov 2026 · 2nd evening"
+    },
+    {
+      "date": "2026-12-09",
+      "ordinal": 1,
+      "newMoonUTC": "2026-12-09T00:52:31.284Z",
+      "label": "9 Dec 2026 · 1st evening"
+    },
+    {
+      "date": "2026-12-10",
+      "ordinal": 2,
+      "newMoonUTC": "2026-12-09T00:52:31.284Z",
+      "label": "10 Dec 2026 · 2nd evening"
+    },
+    {
+      "date": "2027-01-07",
+      "ordinal": 1,
+      "newMoonUTC": "2027-01-07T20:25:05.910Z",
+      "label": "7 Jan 2027 · 1st evening"
+    },
+    {
+      "date": "2027-01-08",
+      "ordinal": 2,
+      "newMoonUTC": "2027-01-07T20:25:05.910Z",
+      "label": "8 Jan 2027 · 2nd evening"
+    },
+    {
+      "date": "2027-02-06",
+      "ordinal": 1,
+      "newMoonUTC": "2027-02-06T15:56:47.415Z",
+      "label": "6 Feb 2027 · 1st evening"
+    },
+    {
+      "date": "2027-02-07",
+      "ordinal": 2,
+      "newMoonUTC": "2027-02-06T15:56:47.415Z",
+      "label": "7 Feb 2027 · 2nd evening"
+    }
+  ]
+}

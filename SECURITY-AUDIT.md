@@ -51,7 +51,7 @@ exploitable application bugs.
 
 - **VULN-001 (postcss):** Accepted / no override applied. Build-time only, not
   exploitable here. Track the Next.js bump manually (run `npm audit` / `npm
-  outdated` periodically).
+outdated` periodically).
 - **VULN-002 (headers):** **"Enforce HTTPS" enabled** in GitHub Pages settings
   (transport security covered). Content headers (CSP/nosniff/referrer) are
   **accepted risk / skipped** — defense-in-depth only on this no-input site.

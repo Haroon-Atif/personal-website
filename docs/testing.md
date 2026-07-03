@@ -31,13 +31,13 @@ browser projects run every spec: **desktop** (Desktop Chrome) and **mobile**
 
 ## What's covered (`tests/e2e/`)
 
-| Spec                        | Covers                                                        |
-| --------------------------- | ------------------------------------------------------------ |
-| `home.spec.ts`              | hero (real name/tagline), experience timeline, CTA + CV link |
-| `terminal-nav.spec.ts`      | `cd`/`help`/unknown-dir, always-on block cursor (both viewports) |
-| `content.spec.ts`           | blog topic → article, project cards → detail, about, 404     |
-| `viz.spec.ts`               | moon-sighting diagram renders and reacts to the sliders      |
-| `cv-and-responsive.spec.ts` | CV served as PDF, desktop links vs mobile menu, footer links |
+| Spec                        | Covers                                                                 |
+| --------------------------- | ---------------------------------------------------------------------- |
+| `home.spec.ts`              | hero (real name/tagline), experience timeline, CTA + CV link           |
+| `terminal-nav.spec.ts`      | `cd`/`help`/unknown-dir, always-on block cursor (both viewports)       |
+| `content.spec.ts`           | blog topic → article, project cards → detail, about, 404               |
+| `viz.spec.ts`               | AlSalah panels react to date/location; globe's reduced-motion fallback |
+| `cv-and-responsive.spec.ts` | CV served as PDF, desktop links vs mobile menu, footer links           |
 
 ## Adding tests
 

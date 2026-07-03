@@ -50,7 +50,7 @@ Dynamic routes are fully pre-rendered via `generateStaticParams`.
 - `components/nav/NavPrompt.tsx` — the interactive `cd` prompt in the nav
   (client, on mobile + desktop). Draws its own always-on block cursor and hides
   the native caret so the visible caret matches the real insertion point.
-- `components/viz/*` — interactive project visualizations (e.g. `MoonSighting`)
+- `components/viz/*` — interactive project visualizations (e.g. `AlSalahPanel`)
   embedded into project MDX by name; see `docs/visualizations.md`.
 
 All animations honor `prefers-reduced-motion`.

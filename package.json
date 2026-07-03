@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "data": "node scripts/gen-crescent-data.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -14,6 +15,9 @@
     "test:report": "playwright show-report"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "astronomy-engine": "^2.1.19",
     "gray-matter": "^4.0.3",
     "next": "16.2.9",
     "next-mdx-remote": "^6.0.0",
@@ -21,7 +25,8 @@
     "react-dom": "19.2.4",
     "rehype-pretty-code": "^0.14.3",
     "remark-gfm": "^4.0.1",
-    "shiki": "^4.3.0"
+    "shiki": "^4.3.0",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
@@ -29,10 +34,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.185.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "prettier": "^3.9.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "topojson-client": "^3.1.0",
+    "typescript": "^5",
+    "world-atlas": "^2.0.2"
   }
 }

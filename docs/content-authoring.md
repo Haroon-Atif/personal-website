@@ -83,13 +83,14 @@ Long-form write-up rendered on /projects/<slug>.
 ### Add an interactive visualization to a project
 
 A project's detail page can embed an interactive visualization (e.g. the
-moon-sighting calculator on the AlSalah project). Register a client component in
-`src/components/viz/` and reference it by name in the MDX body:
+prayer-times + crescent-visibility panels on the AlSalah project). Register a
+client component in `src/components/viz/` and reference it by name in the MDX
+body:
 
 ```mdx
 ## How it works
 
-<MoonSighting />
+<AlSalahPanel />
 ```
 
 Full walkthrough (and how to add your own) in `docs/visualizations.md`.

@@ -23,12 +23,22 @@ lookup table. AlSalah computes month boundaries from **per-location crescent
 visibility**, implementing the peer-reviewed **Odeh (2004)** criterion on top of
 custom sun and moon ephemeris code.
 
-Odeh's test reduces visibility to a single parameter, `q`, from the crescent's
+Odeh's test reduces visibility to a single parameter, `V`, from the crescent's
 arc of vision and its width, and sorts each sighting into four zones — from
-"visible to the naked eye" down to "not visible even with optical aid." Scrub
-the inputs below to see how it behaves:
+"visible to the naked eye" down to "not visible even with optical aid." But the
+calendar doesn't stop at the criterion: it computes the day's **prayer times**
+and that evening's **crescent visibility** from real ephemeris, per location.
+Pick a date and a city and watch both respond:
 
-<MoonSighting />
+<AlSalahPanel />
+
+Visibility is a _global_ question, though — the same young crescent is an easy
+naked-eye sighting in one country and impossible in another the same evening.
+This globe bakes Odeh's zones over the whole Earth for the first evenings after
+upcoming new moons (precomputed at build time), so you can watch the visibility
+band sweep across longitudes:
+
+<CrescentGlobe />
 
 ## Getting the math right
 

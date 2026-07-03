@@ -1,0 +1,3 @@
+# Generated at build time by scripts/gen-crescent-data.mjs — intentionally
+# minified single-line JSON; formatting would only bloat the payloads.
+public/viz-data/

@@ -36,6 +36,7 @@ npm run build    # static export to ./out (this is what Pages deploys)
 npm run lint     # eslint
 npx tsc --noEmit # typecheck
 npm test         # Playwright E2E (needs: npx playwright install chromium once)
+npm run data     # regenerate public/viz-data/ crescent grids (Node 24+, commit the output)
 npx prettier --write .   # format (don't hand-format; Prettier owns style)
 ```
 
@@ -48,8 +49,11 @@ npx prettier --write .   # format (don't hand-format; Prettier owns style)
 
 - `docs/architecture.md` — structure, routes, where the interactivity lives.
 - `docs/content-authoring.md` — how to add topics, articles, projects, resume.
-- `docs/visualizations.md` — interactive project visualizations (e.g. the
-  moon-sighting demo): how the `viz/` → MDX wiring works and how to add one.
+- `docs/visualizations.md` — interactive project visualizations (the AlSalah
+  prayer-times/crescent panels + 3D globe): the `viz/` → MDX wiring, the shared
+  `src/lib/astronomy.ts` helper, `VizFrame`, and build-time data generation.
+- `docs/prayer-astronomy.md` — the prayer-time and Odeh (2004) crescent math
+  behind the AlSalah visualization.
 - `docs/testing.md` — Playwright E2E suite: what's covered and how to run it.
 - `docs/design-system.md` — tokens, fonts, UI primitives, motifs.
 - `docs/deployment.md` — GitHub Pages + Namecheap DNS, switching hosts.
