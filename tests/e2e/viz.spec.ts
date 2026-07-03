@@ -35,6 +35,12 @@ test.describe("alsalah visualization", () => {
     // The evening of the 2026-07-14 new moon → far too young to see (zone D).
     await page.getByLabel("Date").fill("2026-07-14");
     await expect(crescent).toHaveAttribute("aria-label", /zone D/);
+
+    // Two evenings BEFORE conjunction the Moon sets before the Sun (negative
+    // moonset lag). Regression: this must be zone D, not a spurious zone A
+    // scored against the next day's moonset.
+    await page.getByLabel("Date").fill("2026-07-12");
+    await expect(crescent).toHaveAttribute("aria-label", /zone D/);
   });
 
   test("changing the location relabels the prayer-times panel", async ({

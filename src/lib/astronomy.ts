@@ -20,7 +20,7 @@ import {
   SearchHourAngle,
   Equator,
   Horizon,
-  Elongation,
+  type EquatorialCoordinates,
 } from "astronomy-engine";
 
 // astronomy-engine takes numeric direction flags: +1 = rising/ascending event,
@@ -233,18 +233,21 @@ export function prayerTimes(
     const sunDec = Equator(Body.Sun, noon, obs, true, true).dec;
     const cot = asrFactor + Math.tan(Math.abs(lat - sunDec) * DEG);
     const hAsr = Math.atan(1 / cot) / DEG;
-    asr = SearchAltitude(Body.Sun, obs, SET, noon, 1, hAsr)?.date ?? null;
+    const asrRaw = SearchAltitude(Body.Sun, obs, SET, noon, 1, hAsr)?.date;
+    // +30 s ceil pad, matching the app's displayed minute.
+    asr = asrRaw ? new Date(asrRaw.getTime() + MIN / 2) : null;
   }
 
-  // Tahajjud: start of the last third of the night (yesterday's sunset → Fajr).
+  // Tahajjud: start of the last third of the night (yesterday's Maghrib →
+  // Fajr). The night anchors on Maghrib — sunset plus the same +1 min pad as
+  // today's — not raw sunset.
   let tahajjud: Date | null = null;
   if (fajr) {
     const prevDay = new Date(dayStart.getTime() - 86_400_000);
     const ySunset = SearchRiseSet(Body.Sun, obs, SET, prevDay, 1)?.date ?? null;
     if (ySunset) {
-      tahajjud = new Date(
-        fajr.getTime() - (fajr.getTime() - ySunset.getTime()) / 3,
-      );
+      const yMaghrib = ySunset.getTime() + MIN;
+      tahajjud = new Date(fajr.getTime() - (fajr.getTime() - yMaghrib) / 3);
     }
   }
 
@@ -341,7 +344,7 @@ export interface CrescentResult {
   arcv: number;
   /** Crescent width (arcminutes). */
   w: number;
-  /** Arc of light: Moon–Sun elongation (degrees). */
+  /** Arc of light: topocentric Moon–Sun angular separation (degrees). */
   arcl: number;
   /** Odeh visibility parameter V. */
   v: number;
@@ -365,7 +368,13 @@ export function crescentAtSunset(
   const sunset = SearchRiseSet(Body.Sun, obs, SET, dayStart, 1);
   if (!sunset) return null;
 
-  const moonset = SearchRiseSet(Body.Moon, obs, SET, sunset, 1);
+  // THAT evening's moonset: search from 12 h before sunset so a Moon that
+  // sets before the Sun (pre-conjunction evenings) is found with a negative
+  // lag. Searching from sunset itself would skip to the NEXT day's moonset
+  // and score the old waning moon in the middle of the night — a spurious
+  // "zone A" verdict the real engine correctly reports as invisible.
+  const searchStart = new Date(sunset.date.getTime() - 12 * 3_600_000);
+  const moonset = SearchRiseSet(Body.Moon, obs, SET, searchStart, 1);
   const lagMs = moonset ? moonset.date.getTime() - sunset.date.getTime() : 0;
   const lagMin = lagMs / 60_000;
 
@@ -378,7 +387,9 @@ export function crescentAtSunset(
   const moonHor = Horizon(best, obs, moonEq.ra, moonEq.dec);
 
   const arcv = moonHor.altitude - sunHor.altitude;
-  const arcl = Elongation(Body.Moon, best).elongation;
+  // Topocentric arc of light — geocentric elongation can differ by up to ~1°
+  // of lunar parallax, enough to move W (and V) near a zone boundary.
+  const arcl = separationDeg(sunEq, moonEq);
 
   // Crescent width (arcminutes), Bruin's formula with the Moon's mean apparent
   // semi-diameter (15.5′) — matches AlSalah's OdehCriterion to ~0.01′.
@@ -389,4 +400,20 @@ export function crescentAtSunset(
   const v = lagMin > 0 ? odehV(arcv, w) : -Infinity;
 
   return { arcv, w, arcl, v, lagMin, zone: classifyZone(v) };
+}
+
+/**
+ * Great-circle separation (degrees) between two equatorial positions.
+ * `ra` comes from astronomy-engine in sidereal hours; `dec` in degrees.
+ */
+function separationDeg(
+  a: EquatorialCoordinates,
+  b: EquatorialCoordinates,
+): number {
+  const raA = a.ra * 15 * DEG;
+  const raB = b.ra * 15 * DEG;
+  const cosSep =
+    Math.sin(a.dec * DEG) * Math.sin(b.dec * DEG) +
+    Math.cos(a.dec * DEG) * Math.cos(b.dec * DEG) * Math.cos(raA - raB);
+  return Math.acos(Math.max(-1, Math.min(1, cosSep))) / DEG;
 }

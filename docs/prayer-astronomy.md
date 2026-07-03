@@ -35,18 +35,18 @@ Two independent controls:
 The extended (AlSalah) event set, each the moment the Sun reaches a defining
 altitude:
 
-| Event      | Definition                                                                              |
-| ---------- | --------------------------------------------------------------------------------------- |
-| `tahajjud` | Start of the last third of the night (yesterday sunset → Fajr)                          |
-| `fajr`     | Sun 18° below the horizon (`SearchAltitude`, ascending)                                 |
-| `shurooq`  | Sunrise — upper limb at 0.83° (`SearchRiseSet`)                                         |
-| `dhoha`    | Sun 3.6° above the horizon ("height of a spear")                                        |
-| `zawaal`   | Solar noon − 5 min (`SearchHourAngle` at hour angle 0)                                  |
-| `zuhr`     | Solar noon + 5 min                                                                      |
-| `asr`      | Shadow = N × height + noon shadow; `cot(h) = N + tan\|lat−δ☉\|`, N = 2 Ḥanafī / 1 other |
-| `maghrib`  | Sunset — upper limb at 0.83°, + 1 min iftar pad                                         |
-| `ahmar`    | Red twilight — Sun 15.5° below the horizon                                              |
-| `isha`     | Sun 18° below the horizon (`SearchAltitude`, descending)                                |
+| Event      | Definition                                                                                               |
+| ---------- | -------------------------------------------------------------------------------------------------------- |
+| `tahajjud` | Start of the last third of the night (yesterday Maghrib → Fajr)                                          |
+| `fajr`     | Sun 18° below the horizon (`SearchAltitude`, ascending)                                                  |
+| `shurooq`  | Sunrise — upper limb at 0.83° (`SearchRiseSet`)                                                          |
+| `dhoha`    | Sun 3.6° above the horizon ("height of a spear")                                                         |
+| `zawaal`   | Solar noon − 5 min (`SearchHourAngle` at hour angle 0)                                                   |
+| `zuhr`     | Solar noon + 5 min                                                                                       |
+| `asr`      | Shadow = N × height + noon shadow; `cot(h) = N + tan\|lat−δ☉\|`, N = 2 Ḥanafī / 1 other; + 30 s ceil pad |
+| `maghrib`  | Sunset — upper limb at 0.83°, + 1 min iftar pad                                                          |
+| `ahmar`    | Red twilight — Sun 15.5° below the horizon                                                               |
+| `isha`     | Sun 18° below the horizon (`SearchAltitude`, descending)                                                 |
 
 At high latitudes a twilight event may not occur — the helper returns `null`,
 rendered as "—". (Real apps apply "higher-latitude" rules; the teaching model
@@ -58,11 +58,17 @@ deliberately doesn't.)
 (2004)** criterion for whether the new lunar crescent is visible at dusk:
 
 1. **Best time** to look: `Tb = sunset + (4/9)·lag`, where `lag = moonset −
-sunset`. If the Moon sets before the Sun (`lag ≤ 0`) the crescent is below the
-   horizon at dusk.
+sunset`. The moonset is _that evening's_ (searched from 12 h before sunset), so
+   on pre-conjunction evenings the lag comes out **negative** — the Moon sets
+   before the Sun, the crescent is below the horizon at dusk, and the verdict
+   is "not visible" (`V = −∞`), matching the real engine. (Searching only
+   _forward_ from sunset was an actual bug here once: it silently picked up the
+   next day's moonset and scored the old waning moon at ~3 a.m. as "zone A".)
 2. **ARCV** (arc of vision) = topocentric altitude of the Moon minus that of the
    Sun at `Tb`.
-3. **ARCL** (arc of light) = Moon–Sun elongation.
+3. **ARCL** (arc of light) = topocentric Moon–Sun angular separation (geocentric
+   elongation differs by up to ~1° of lunar parallax — enough to move V near a
+   zone boundary).
 4. **W** (crescent width, arcminutes) = `15.5′ · (1 − cos ARCL)` — Bruin's
    formula with the Moon's mean apparent semi-diameter (15.5′), the fixed value
    AlSalah's `OdehCriterion` uses.
