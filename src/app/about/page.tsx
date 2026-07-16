@@ -12,20 +12,37 @@ export const metadata: Metadata = {
 };
 
 const stack = [
+  "Python",
   "Kotlin",
   "Kotlin Multiplatform",
   "Compose",
-  "Python",
-  "C / C++",
-  "TypeScript",
-  "Ktor / FastAPI",
+  "JavaScript",
+  "SQL",
+  "C",
+  "FastAPI",
+  "Playwright",
+  "MCP",
+  "Anthropic API",
   "Docker",
-  "Kubernetes",
   "AWS",
   "Linux",
 ];
 
+const certifications = [
+  "Anthropic AI Fluency",
+  "Claude 101",
+  "CompTIA CySA+",
+  "Splunk Core Certified User",
+  "Kubernetes & Cloud Native Associate (KCNA)",
+  "Linux Essentials",
+];
+
 const education = [
+  {
+    school: "Per Scholas",
+    degree: "Cyber Security Analyst Certificate",
+    detail: "Mar 2026",
+  },
   {
     school: "Western Governor's University",
     degree: "B.S. Computer Science",
@@ -33,8 +50,8 @@ const education = [
   },
   {
     school: "University of California, Irvine",
-    degree: "B.S. Computer Science",
-    detail: "2023 – 2024",
+    degree: "Computer Science",
+    detail: "2023 – 2024 · transferred to WGU",
   },
   {
     school: "Los Angeles Harbor College",
@@ -58,18 +75,22 @@ export default function AboutPage() {
             them, and I like problems where correctness actually matters.
           </p>
           <p>
-            Right now I&apos;m at Sileria building <strong>AlSalah</strong>, a
-            Kotlin Multiplatform prayer-times app that ships to Android, iOS,
-            and Desktop from one shared codebase. Its heart is a from-scratch
-            astronomy engine that computes lunar-crescent visibility using the
-            peer-reviewed Odeh (2004) criterion — validated against NASA and JPL
-            HORIZONS data across 22 years of published records.
+            Right now I&apos;m an engineering volunteer at Sileria on a mosque
+            facility build — planning the physical security architecture in
+            UniFi Design Center and designing and testing a segmented Ubiquiti
+            network before the permanent install. On the software side I work on{" "}
+            <strong>AlSalah</strong>, a Kotlin Multiplatform prayer-times app,
+            where I shipped the first iOS build of the shared Compose codebase.
           </p>
           <p>
-            Before that I automated pricing and reporting pipelines in Python
-            and spent a year debugging contact-center systems at the City of Los
-            Angeles. I also enjoy lower-level, security-minded work — hardening
-            embedded firmware for the MITRE eCTF is a recent favorite.
+            Before that I ran systems for a glass company — consolidating its
+            accounting onto QuickBooks and building an Excel VBA macro that
+            blocked a SpaceX job from being bid below cost — and spent a year at
+            the City of Los Angeles ITA resolving 100+ ServiceNow tickets a day
+            and auditing telecom billing. I also build with AI — most recently a
+            Claude-driven browser-automation agent (Python, Playwright, FastAPI,
+            MCP) deployed on Fly.io — and enjoy security-minded work like
+            hardening embedded firmware for the MITRE eCTF.
           </p>
         </div>
       </Window>
@@ -81,6 +102,17 @@ export default function AboutPage() {
         <div className="flex flex-wrap gap-2">
           {stack.map((s) => (
             <Badge key={s}>{s}</Badge>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <p className="mb-3 font-mono text-sm text-muted">
+          <span className="text-accent">$</span> cat certifications.txt
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {certifications.map((c) => (
+            <Badge key={c}>{c}</Badge>
           ))}
         </div>
       </div>

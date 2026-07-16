@@ -1,7 +1,7 @@
 ---
 title: "AI-Powered Web Automation Agent"
-summary: "An autonomous browser agent that plans multi-step web tasks with an LLM and recovers from failures, exposed over a FastAPI interface."
-tech: ["Python", "Playwright", "FastAPI", "MCP"]
+summary: "A FastAPI service that turns plain-language instructions into multi-step browser automation — a Claude agent driving Playwright over MCP, deployed on Fly.io."
+tech: ["Python", "Playwright", "FastAPI", "MCP", "Docker"]
 featured: false
 order: 2
 ---
@@ -14,12 +14,15 @@ task.
 
 ## How it works
 
-- **LLM-driven planning** via MCP decides the next action from the current page
-  state rather than following a fixed script.
+- A **Claude agent over MCP** decides the next action from the current page
+  state rather than following a fixed script, driving a real browser through
+  Playwright.
 - **State recovery and retry logic** so a flaky step or an unexpected page
   doesn't sink the whole run — the agent re-observes and re-plans.
 - A **FastAPI** interface exposes task execution so other systems can trigger
   runs over HTTP, with no code changes required per task.
+- **Containerized with Docker** and deployed to Fly.io behind a
+  token-authenticated endpoint.
 
 ## What I learned
 

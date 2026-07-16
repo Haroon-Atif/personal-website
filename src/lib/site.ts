@@ -8,10 +8,9 @@ export const site = {
   handle: "haroon",
   role: "Software Engineer",
   tagline:
-    "I build cross-platform software and the rigorous systems behind it — from a Kotlin Multiplatform prayer-times app with a from-scratch astronomy engine to security-minded tooling.",
+    "Software engineer in Los Angeles building cross-platform apps, AI agents, and security-minded systems — and writing about the engineering behind them.",
   email: "atif.haroon02@gmail.com",
-  // TODO: replace with your real custom domain before deploying (also public/CNAME).
-  url: "https://example.com",
+  url: "https://haroonatif.com",
   socials: {
     github: "https://github.com/Haroon-Atif/",
     linkedin: "https://www.linkedin.com/in/haroon-atif/",

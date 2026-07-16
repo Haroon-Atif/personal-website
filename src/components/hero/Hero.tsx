@@ -22,8 +22,8 @@ export function Hero() {
             <Typewriter
               phrases={[
                 "software engineer",
+                "ai agent builder",
                 "kotlin multiplatform dev",
-                "astronomy-engine builder",
                 "security tinkerer",
               ]}
             />
